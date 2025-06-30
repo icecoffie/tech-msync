@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Sync - Your Tech Ecosystem, In Perfect Orbit</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Fira Code', monospace;
+            background-color: #0A1428;
+            color: #E0E0E0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .header-gradient {
+            background: linear-gradient(to right, #007bff, #00c6ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-container {
+            background-color: rgba(10, 20, 40, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 0 40px rgba(0, 198, 255, 0.15);
+            padding: 3rem;
+            margin-bottom: 5rem;
+            border: 1px solid rgba(0, 198, 255, 0.1);
+            position: relative;
+        }
+
+        .ripple {
+            position: relative;
+            overflow: hidden;
+            z-index: 0;
+        }
+        .ripple:after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            background: radial-gradient(circle, rgba(0,123,255,0.4) 10%, transparent 10.01%);
+            background-repeat: no-repeat;
+            background-position: 50%;
+            transform: scale(10,10);
+            opacity: 0;
+            transition: transform 0.5s, opacity 1s;
+            z-index: -1;
+        }
+        .ripple:hover:after {
+            transform: scale(0,0);
+            opacity: 0.3;
+            transition: 0s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, #007bff, #00c6ff);
+            padding: 0.85rem 2.5rem;
+            border-radius: 50px;
+            color: white;
+            font-weight: bold;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            box-shadow: 0 5px 15px rgba(0, 198, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(0, 198, 255, 0.5);
+        }
+
+        .social-icon {
+            font-size: 1.8rem;
+            color: #7B8A9D;
+            transition: color 0.2s ease-in-out;
+        }
+
+        .social-icon:hover {
+            color: #00c6ff;
+        }
+
+        .project-card {
+            background-color: #1A2436;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(0);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            border: 1px solid rgba(0, 198, 255, 0.05);
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(0, 198, 255, 0.3);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: #0A1428;
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 800px;
+            width: 90%;
+            box-shadow: 0 0 50px rgba(0, 198, 255, 0.4);
+            position: relative;
+            transform: translateY(-50px);
+            opacity: 0;
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.8rem;
+            color: #E0E0E0;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .modal-close:hover {
+            color: #00c6ff;
+        }
+
+        .testimonial-container {
+            display: flex;
+            overflow: hidden;
+            position: relative;
+            border-radius: 10px;
+        }
+
+        .testimonial-wrapper {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .testimonial-card {
+            min-width: 100%;
+            box-sizing: border-box;
+            background-color: #1A2436;
+            padding: 2.5rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 1rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 198, 255, 0.05);
+        }
+
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            z-index: 10;
+            padding: 0 1rem;
+        }
+
+        .slider-button {
+            background-color: rgba(0, 198, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.2rem;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .slider-button:hover {
+            background-color: rgba(0, 198, 255, 0.4);
+            transform: scale(1.1);
+        }
+
+        .about-code-container {
+            position: relative;
+            background-color: #1A2436;
+            border-radius: 10px;
+            padding: 2rem;
+            padding-top: 3rem;
+            overflow: auto;
+            max-height: 500px;
+        }
+        .mac-dots {
+            position: absolute;
+            top: 1.25rem;
+            left: 1.5rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 1;
+        }
+        .mac-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .mac-dot.red { background-color: #ff605c; }
+        .mac-dot.yellow { background-color: #ffbd44; }
+        .mac-dot.green { background-color: #00ca4e; }
+
+        .logo-slider-container {
+            overflow: hidden;
+            width: 100%;
+            margin-top: 5rem;
+            margin-bottom: 5rem;
+            padding: 2rem 0;
+            background-color: rgba(10, 20, 40, 0.6);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 198, 255, 0.1);
+            position: relative;
+        }
+
+        .logo-slider-wrapper {
+            display: flex;
+            animation: slide-logos 20s linear infinite;
+            will-change: transform;
+        }
+
+        .logo-item {
+            flex: 0 0 auto;
+            width: 150px;
+            margin: 0 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-item img {
+            max-height: 60px;
+            width: auto;
+            filter: grayscale(100%) brightness(150%);
+            opacity: 0.7;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .logo-item img:hover {
+            opacity: 1;
+            filter: grayscale(0%) brightness(100%);
+        }
+
+        @keyframes slide-logos {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar-menu {
+                flex-direction: column;
+                width: 100%;
+                background: #0A1428;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                padding: 0;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+                max-height: 0;
+                opacity: 0;
+                overflow: hidden;
+                transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, padding 0.4s ease-in-out;
+            }
+            .navbar-menu.active {
+                max-height: 500px;
+                opacity: 1;
+                padding: 1rem 0;
+            }
+            .navbar-menu li {
+                padding: 0.5rem 1rem;
+                text-align: center;
+            }
+            .navbar-toggle {
+                display: block;
+                padding: 0.5rem;
+                border-radius: 5px;
+                background-color: rgba(0, 123, 255, 0.2);
+                transition: background-color 0.3s ease-in-out;
+            }
+            .navbar-toggle:hover {
+                background-color: rgba(0, 123, 255, 0.4);
+            }
+            .section-container {
+                padding: 2rem;
+                margin-bottom: 3rem;
+            }
+            .home-content-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            .home-asset-placeholder {
+                height: 200px;
+                width: 100%;
+                margin-top: 2rem;
+            }
+            .about-code-container {
+                padding: 1rem;
+                padding-top: 2rem;
+                font-size: 0.75rem;
+            }
+            .mac-dots {
+                top: 0.8rem;
+                left: 1rem;
+            }
+            .logo-slider-wrapper {
+                animation-duration: 25s;
+            }
+            .logo-item {
+                width: 120px;
+                margin: 0 1rem;
+            }
+        }
+        .header-logo-img {
+            height: 50px;
+            width: auto;
+            display: block;
+        }
+
+        .award-container {
+            position: absolute;
+            top: -45px; 
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            width: 90px;
+            height: 90px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .award-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; 
+        }
+
+        #home {
+            padding-top: 5rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="py-6 px-4 md:px-8 bg-gray-900 bg-opacity-70 backdrop-filter backdrop-blur-lg shadow-lg fixed w-full z-10">
+        <nav class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="msync-fish.png" alt="MSync Logo" class="header-logo-img">
+            </div>
+            <button class="text-white md:hidden focus:outline-none navbar-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="navbar-menu md:flex md:space-x-8 mt-4 md:mt-0">
+                <li><a href="#home" class="hover:text-blue-400 transition duration-300 px-3 py-2 rounded-lg ripple">Home</a></li>
+                <li><a href="#about" class="hover:text-blue-400 transition duration-300 px-3 py-2 rounded-lg ripple">About</a></li>
+                <li><a href="#projects" class="hover:text-blue-400 transition duration-300 px-3 py-2 rounded-lg ripple">Projects</a></li>
+                <li><a href="#testimonials" class="hover:text-blue-400 transition duration-300 px-3 py-2 rounded-lg ripple">Testimonials</a></li>
+                <li><a href="#contact" class="hover:text-blue-400 transition duration-300 px-3 py-2 rounded-lg ripple">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="pt-28 container mx-auto px-4 md:px-8"> 
+
+        <section id="home" class="min-h-screen flex items-center justify-center text-center">
+            <div class="max-w-4xl w-full section-container">
+                <div class="award-container">
+                    <img src="award.png" alt="award">
+                </div>
+                <div class="flex flex-col md:flex-row items-center justify-between home-content-container">
+                    <div class="text-left md:w-1/2">
+                        <p class="text-lg text-gray-400 mb-4 font-light">Hola! Welcome To</p>
+                        <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
+                            <span class="header-gradient">Matrix Sync</span>
+                        </h1>
+                        <p class="text-xl md:text-2xl mb-8">
+                            &gt;_ Your Tech Ecosystem, In Perfect Orbit.
+                        </p>
+                        <div class="mt-10 mb-8 text-gray-500 text-sm">
+                            <p>// From Concept to Code: Synchronized by Matrix Sync.</p>
+                            <p>// find my Universe:</p>
+                            <p>const Orbit-Pluto = "<a href="https://app.gather.town/app/OGgvT3rrKEcCclY1/Matrix%20Sync%20Office" target="_blank" class="text-blue-400 hover:underline">🌌 MSync Space</a>"</p>
+                        </div>
+                        <a href="#projects" id="view-projects-btn" class="btn-primary inline-block ripple">View Our Projects</a>
+                    </div>
+                    <div class="md:w-1/2 flex justify-center items-center mt-8 md:mt-0 md:ml-8">
+                      <img src="spech.gif" alt="Deskripsi GIF Anda" class="rounded-lg shadow-xl w-full h-64 md:h-96 object-cover">
+                      </video>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="logo-slider-container">
+            <div class="logo-slider-wrapper">
+                <div class="logo-item ripple"><img src="collab2.png" alt="Partner Logo 1"></div>
+                <div class="logo-item ripple"><img src="collab1.png" alt="Partner Logo 2"></div>
+                <div class="logo-item ripple"><img src="collab3.png" alt="Partner Logo 3"></div>
+                <div class="logo-item ripple"><img src="collab4.png" alt="Partner Logo 4"></div>
+                <div class="logo-item ripple"><img src="collab5.png" alt="Partner Logo 5"></div>
+                <div class="logo-item ripple"><img src="collab6.png" alt="Partner Logo 6"></div>
+                <div class="logo-item ripple"><img src="collab2.png" alt="Partner Logo 1"></div>
+                <div class="logo-item ripple"><img src="collab1.png" alt="Partner Logo 2"></div>
+                <div class="logo-item ripple"><img src="collab3.png" alt="Partner Logo 3"></div>
+                <div class="logo-item ripple"><img src="collab4.png" alt="Partner Logo 4"></div>
+                <div class="logo-item ripple"><img src="collab5.png" alt="Partner Logo 5"></div>
+                <div class="logo-item ripple"><img src="collab6.png" alt="Partner Logo 6"></div>
+            </div>
+        </section>
+
+        <section id="about" class="min-h-screen flex items-center justify-center">
+            <div class="max-w-4xl w-full section-container text-center relative">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 header-gradient pt-8">About Matrix Sync</h2>
+                <div class="about-code-container text-left">
+                    <div class="mac-dots">
+                        <div class="mac-dot red"></div>
+                        <div class="mac-dot yellow"></div>
+                        <div class="mac-dot green"></div>
+                    </div>
+                    <pre class="text-gray-300 mt-4"><code>
+const MatrixSync = {
+  version: '1.0.0',
+  mission: 'To build a seamless and robust Tech ecosystem 
+  that drives growth and success for your business.',
+  values: [
+    'Clean Design',
+    'Powerful Functionality',
+    'Exceptional User Experience',
+    'Innovation & Adaptability'
+  ],
+  services: [
+    { name: 'UI/UX Design','Designing for optimal engagement.' },
+    { name: 'Web App Development','Crafting responsive and dynamic system.' },
+    { name: 'Hosting', description: 'Deploy website with the best offer' },
+    { name: 'Cloud Solutions','Cloud technologies scalable infrastructure.' }
+  ],
+  team: {
+    philosophy: 'centers on resolving digital systems. 
+    "Matrix" refers to the scattered and various codes and platforms, 
+    while "Sync" represents the process of unifying them. 
+    Essentially, Matrix Sync aims to transform a complex and disjointed 
+    digital landscape into a perfectly synchronized and cohesive Tech.
+    expertise: 'UI/UX, Full-stack Development / Engineer 👩🏻‍💻, 
+    Cloud Architecture, and Project Management.'
+  },
+  contact: {
+    email: 'tech@msync.my.id',
+    social: ['Instagram', 'LinkedIn', 'GitHub', 'Dribbble']
+  },
+  init: () => {
+  console.log('Fly High With Us! 🚀');
+  }
+};
+export default MatrixSync;
+                    </code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="min-h-screen flex flex-col items-center justify-center">
+            <div class="max-w-5xl w-full section-container text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-10 header-gradient">Our Projects</h2>
+                <div id="project-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="project-card ripple">
+                        <a href="https://othellosm.msync.my.id" target="_blank" class="block w-full h-full p-4">
+                            <img src="othello.jpg" alt="Othello Game" class="rounded-lg mb-4 w-full h-48 object-cover">
+                            <h3 class="text-2xl font-semibold text-blue-300 mb-2">Othellosm</h3>
+                            <p class="text-gray-400">A classic strategy othello game, online! Challenge a smart bot opponent to hone your skills or play with a friend for a head-to-head match.</p>
+                        </a>
+                    </div>
+                    <div class="project-card ripple">
+                        <a href="https://mainrubik.msync.my.id" target="_blank" class="block w-full h-full p-4">
+                            <img src="rubik.png" alt="Project 2" class="rounded-lg mb-4 w-full h-48 object-cover">
+                            <h3 class="text-2xl font-semibold text-blue-300 mb-2">Main Rubik</h3>
+                            <p class="text-gray-400">Dive into the world of the Rubik's Cube with our beautiful 3D visual game. Enjoy smooth animations and a realistic perspective as you twist</p>
+                        </a>
+                    </div>
+                    <div class="project-card ripple">
+                        <a href="https://tetr1s.msync.my.id" target="_blank" class="block w-full h-full p-4">
+                            <img src="tetr1s.png" alt="Project 3" class="rounded-lg mb-4 w-full h-48 object-cover">
+                            <h3 class="text-2xl font-semibold text-blue-300 mb-2">Tetr1s</h3>
+                            <p class="text-gray-400">Block-dropping puzzle game features a responsive design, meaning you can enjoy smooth, optimized gameplay seamlessly on any device</p>
+                        </a>
+                    </div>
+                    <div class="project-card ripple">
+                        <a href="https://invorbit.vercel.app" target="_blank" class="block w-full h-full p-4">
+                            <img src="invorbit.png" alt="Project 4" class="rounded-lg mb-4 w-full h-48 object-cover">
+                            <h3 class="text-2xl font-semibold text-blue-300 mb-2">Invorbit</h3>
+                            <p class="text-gray-400">Solution for creating and managing invoices effortlessly. With its fully responsive design, you can generate professional invoices.</p>
+                        </a>
+                    </div>
+                    <div class="project-card ripple">
+                        <a href="https://tanya.msync.my.id" target="_blank" class="block w-full h-full p-4">
+                            <img src="tanya.png" alt="Project 5" class="rounded-lg mb-4 w-full h-48 object-cover">
+                            <h3 class="text-2xl font-semibold text-blue-300 mb-2">Tanya Kala</h3>
+                            <p class="text-gray-400">Got a burning question about technology? Tanya Kala is your direct line to the owner for all things tech!</p>
+                        </a>
+                    </div>
+                    <div class="project-card ripple">
+                        <a href="https://dribbble.com/msync" target="_blank" class="block w-full h-full p-4">
+                            <img src="showcases.jpeg" alt="Project 6" class="rounded-lg mb-4 w-full h-48 object-cover">
+                            <h3 class="text-2xl font-semibold text-blue-300 mb-2">Design Showcases</h3>
+                            <p class="text-gray-400">Explore the creative world of Matrix Sync through our Design Showcases. Discover our aesthetic, detail and innovative</p>
+                        </a>
+                    </div>
+                    <div class="project-card hidden-project ripple">
+                        <a href="https://marketplace.visualstudio.com/items?itemName=MatrixSync.drinkwater-extension" target="_blank" class="block w-full h-full p-4">
+                            <img src="drinkext.png" alt="Project 7" class="rounded-lg mb-4 w-full h-48 object-cover">
+                            <h3 class="text-2xl font-semibold text-blue-300 mb-2">Drink Water Pop Up</h3>
+                            <p class="text-gray-400">Extension Visual Studio Code for reminder developer to drink a water. with a Pop Up Timer, you must stay hydrated.</p>
+                        </a>
+                    </div>
+                    <div class="project-card hidden-project ripple">
+                        <a href="https://marketplace.visualstudio.com/items?itemName=MatrixSync.omala" target="_blank" class="block w-full h-full p-4">
+                            <img src="codeshot.png" alt="Project 8" class="rounded-lg mb-4 w-full h-48 object-cover">
+                            <h3 class="text-2xl font-semibold text-blue-300 mb-2">Omala - Codeshot</h3>
+                            <p class="text-gray-400">Extension Visual Studio Code for Developer Shot the Code with aesthetic theme like your vscode. Click and Shot! </p>
+                        </a>
+                    </div>
+                    <div class="project-card hidden-project ripple">
+                        <a href="https://arxan.app" target="_blank" class="block w-full h-full p-4">
+                            <img src="hosting.png" alt="Project 9" class="rounded-lg mb-4 w-full h-48 object-cover">
+                            <h3 class="text-2xl font-semibold text-blue-300 mb-2">Hosting Partner</h3>
+                            <p class="text-gray-400"> Arxan : Trusted partner for robust and reliable web hosting solutions. Comprehensive services including high-performance</p>
+                        </a>
+                    </div>
+                    <div class="project-card hidden-project ripple">
+                        <a href="https://syncwave.msync.my.id" target="_blank" class="block w-full h-full p-4">
+                            <img src="syncwave.png" alt="Project 10" class="rounded-lg mb-4 w-full h-48 object-cover">
+                            <h3 class="text-2xl font-semibold text-blue-300 mb-2">SyncWave</h3>
+                            <p class="text-gray-400">SyncWave, a sleek and intuitive web application designed for seamless music enjoyment. Create personalized playlists with ease</p>
+                        </a>
+                    </div>
+                    <div class="project-card hidden-project ripple">
+                        <a href="https://pengotype.msync.my.id" target="_blank" class="block w-full h-full p-4">
+                            <img src="pengotype.png" alt="Project 11" class="rounded-lg mb-4 w-full h-48 object-cover">
+                            <h3 class="text-2xl font-semibold text-blue-300 mb-2">Pengo Type</h3>
+                            <p class="text-gray-400">Animation web application provides a clean, distraction-free space for you to type anything you want.</p>
+                        </a>
+                    </div>
+                    <div class="project-card hidden-project ripple">
+                        <a href="https://skybreez.msync.my.id" target="_blank" class="block w-full h-full p-4">
+                            <img src="skybreez.png" alt="Project 12" class="rounded-lg mb-4 w-full h-48 object-cover">
+                            <h3 class="text-2xl font-semibold text-blue-300 mb-2">Weather App</h3>
+                            <p class="text-gray-400">Skybreez, the intuitive and visually appealing weather app. Get accurate, real-time forecasts With its clean interface.</p>
+                        </a>
+                    </div>
+                    <div class="project-card hidden-project ripple">
+                        <a href="https://codepen.io/icecoffie/full/LEYKYmR" target="_blank" class="block w-full h-full p-4">
+                            <img src="speedytype.png" alt="Project 13" class="rounded-lg mb-4 w-full h-48 object-cover">
+                            <h3 class="text-2xl font-semibold text-blue-300 mb-2">Speedy Type</h3>
+                            <p class="text-gray-400">Challenge yourself and sharpen your typing skills. This engaging web application presents you with random words to type</p>
+                        </a>
+                    </div>
+                    <div class="project-card hidden-project ripple">
+                        <a href="https://codepen.io/icecoffie/full/dPyvQwZ" target="_blank" class="block w-full h-full p-4">
+                            <img src="objectdetect.jpeg" alt="Project 14" class="rounded-lg mb-4 w-full h-48 object-cover">
+                            <h3 class="text-2xl font-semibold text-blue-300 mb-2">Object Detection</h3>
+                            <p class="text-gray-400">TensorFlow is a powerful technique that enables machines to identify and precisely locate multiple objects within an image or video.</p>
+                        </a>
+                    </div>
+                    <div class="project-card hidden-project ripple">
+                        <a href="https://Rocketrack.msync.my.id" target="_blank" class="block w-full h-full p-4">
+                            <img src="rocketrack.png" alt="Project 15" class="rounded-lg mb-4 w-full h-48 object-cover">
+                            <h3 class="text-2xl font-semibold text-blue-300 mb-2">RockeTrack</h3>
+                            <p class="text-gray-400">Powerful tool that allows you to gain insights into who clicked your links and from where. monitor the geographical location of users</p>
+                        </a>
+                    </div>
+                    <div class="project-card hidden-project ripple">
+                        <a href="https://turutudu.msync.my.id" target="_blank" class="block w-full h-full p-4">
+                            <img src="turutudu.png" alt="Project 16" class="rounded-lg mb-4 w-full h-48 object-cover">
+                            <h3 class="text-2xl font-semibold text-blue-300 mb-2">Turu Tudu</h3>
+                            <p class="text-gray-400">Web application designed to help you organize your tasks and boost your productivity has a different way of tackling their to-dos.</p>
+                        </a>
+                    </div>
+                    <div class="project-card hidden-project ripple">
+                        <a href="https://whatsapp.com/channel/0029VbBNHToKrWQoNtBduu2u" target="_blank" class="block w-full h-full p-4">
+                            <img src="komunitas.png" alt="Project 17" class="rounded-lg mb-4 w-full h-48 object-cover">
+                            <h3 class="text-2xl font-semibold text-blue-300 mb-2">Tech Community</h3>
+                            <p class="text-gray-400">Join the Tech Community by Matrix Sync, a vibrant and supportive space for anyone passionate about technology! perfect place to learn, share, and grow.</p>
+                        </a>
+                    </div>
+                    <div class="project-card hidden-project ripple">
+                        <a href="https://docs.google.com/spreadsheets/d/1qfATqXNokCWCgpNYU4if_lRzVRJM55zu7oycrJM06LI/edit?usp=sharing" target="_blank" class="block w-full h-full p-4">
+                            <img src="hirefreelance.jpeg" alt="Project 18" class="rounded-lg mb-4 w-full h-48 object-cover">
+                            <h3 class="text-2xl font-semibold text-blue-300 mb-2">More Project / Client</h3>
+                            <p class="text-gray-400">Diverse range of our past work, featuring innovative solutions developed for various clients across different industries. See how Matrix Sync translates ideas into impactful digital experiences</p>
+                        </a>
+                    </div>
+                </div>
+                <button id="load-more-projects" class="btn-primary mt-12 px-6 py-3 ripple">Load More Projects</button>
+            </div>
+        </section>
+
+        <section id="promo-image-section" class="flex items-center justify-center text-center">
+            <div class="max-w-5xl w-full section-container flex flex-col justify-center items-center p-4 relative">
+                <div class="mac-dots">
+                    <div class="mac-dot red"></div>
+                    <div class="mac-dot yellow"></div>
+                    <div class="mac-dot green"></div>
+                </div>
+                <img src="banner.png" alt="Promotional Banner" class="rounded-lg shadow-xl w-full h-auto object-cover mb-6">
+                <a href="https://form.typeform.com/to/YxutCuc7" target="_blank" class="btn-primary inline-block ripple">Join Our Team - MSync Careers</a>
+            </div>
+        </section>
+
+        <section id="testimonials" class="min-h-screen flex flex-col items-center justify-center">
+            <div class="max-w-4xl w-full section-container text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-10 header-gradient">What Our Clients Say</h2>
+                <div class="testimonial-container relative overflow-hidden">
+                    <div class="testimonial-wrapper flex w-full">
+                        <div class="testimonial-card">
+                            <div class="text-yellow-400 mb-4 text-2xl">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <p class="text-xl md:text-2xl italic mb-6 text-gray-200">"Matrix Sync delivered an outstanding website for our business. The design is sleek, and the functionality is flawless. Highly recommended!"</p>
+                            <p class="text-lg font-semibold text-blue-300">- Sarah Kohler, CEO of InnovateTech</p>
+                        </div>
+                        <div class="testimonial-card">
+                            <div class="text-yellow-400 mb-4 text-2xl">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <p class="text-xl md:text-2xl italic mb-6 text-gray-200">"The mobile app developed by Matrix Sync has transformed our workflow. It's incredibly intuitive and has significantly boosted our team's productivity."</p>
+                            <p class="text-lg font-semibold text-blue-300">- Mark Lee, Project Manager at GrowthCorp</p>
+                        </div>
+                        <div class="testimonial-card">
+                            <div class="text-yellow-400 mb-4 text-2xl">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <p class="text-xl md:text-2xl italic mb-6 text-gray-200">"Their expertise in custom software development is truly remarkable. Matrix Sync understood our complex needs and provided a perfect solution."</p>
+                            <p class="text-lg font-semibold text-blue-300">- Emily Lily, Founder of BlueSolutions</p>
+                        </div>
+                        <div class="testimonial-card">
+                            <div class="text-yellow-400 mb-4 text-2xl">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <p class="text-xl md:text-2xl italic mb-6 text-gray-200">"Working with Matrix Sync was a pleasure. They were responsive, professional, and delivered exactly what we envisioned, on time and within budget."</p>
+                            <p class="text-lg font-semibold text-blue-300">- Maven Müller, IT Manager at Moxy Group</p>
+                        </div>
+                    </div>
+                    <div class="slider-nav">
+                        <button class="slider-button prev-testimonial ripple"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-button next-testimonial ripple"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="min-h-screen flex items-center justify-center">
+            <div class="max-w-3xl w-full section-container text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 header-gradient">Contact Us</h2>
+                <p class="text-lg md:text-xl mb-8 text-gray-300">
+                    Interested in working together? Reach out to us via the form below and wait for the respon!
+                </p>
+                <form id="waterform" method="post" action="https://formspree.io/f/xjkrorey" class="space-y-6 text-left">
+                    <div>
+                        <label for="name" class="block text-gray-300 text-sm font-bold mb-2">Name:</label>
+                        <input type="text" id="name" name="name" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-200 leading-tight focus:outline-none focus:shadow-outline bg-gray-700 border-gray-600 placeholder-gray-400" placeholder="Your Name">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-gray-300 text-sm font-bold mb-2">E-mail:</label>
+                        <input type="email" id="email" name="email" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-200 leading-tight focus:outline-none focus:shadow-outline bg-gray-700 border-gray-600 placeholder-gray-400" placeholder="Your E-mail">
+                    </div>
+                    <div>
+                        <label for="message" class="block text-gray-300 text-sm font-bold mb-2">Message:</label>
+                        <textarea id="message" name="message" rows="6" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-200 leading-tight focus:outline-none focus:shadow-outline bg-gray-700 border-gray-600 placeholder-gray-400" placeholder="Your Message"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary w-full ripple">Send Message</button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="py-8 bg-gray-900 bg-opacity-70 backdrop-filter backdrop-blur-lg text-center">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center px-4 md:px-8">
+            <div class="flex items-center mb-4 md:mb-0">
+                <span class="text-gray-400 mr-3">find us:</span>
+                <div class="flex space-x-4">
+                    <a href="https://www.instagram.com/msync.tech" target="_blank" class="social-icon ripple" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://wa.me/27810759861" target="_blank" class="social-icon ripple" aria-label="WhatsApp">
+                        <i class="fab fa-whatsapp"></i>
+                    <a href="https://www.linkedin.com/company/msync/" target="_blank" class="social-icon ripple" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://github.com/iceocoffie" target="_blank" class="social-icon ripple" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://dribbble.com/msync" target="_blank" class="social-icon ripple" aria-label="Dribbble">
+                        <i class="fab fa-dribbble"></i>
+                    </a>
+                </div>
+            </div>
+            <p class="text-gray-400">&copy; 2025 Matrix Sync. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div id="project-detail-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h3 id="modal-project-title" class="text-3xl font-semibold text-blue-300 mb-2"></h3>
+            <p id="modal-project-description" class="text-gray-400 text-lg"></p>
+        </div>
+    </div>
+
+    <script>
+        const navbarToggle = document.querySelector('.navbar-toggle');
+        const navbarMenu = document.querySelector('.navbar-menu');
+
+        navbarToggle.addEventListener('click', () => {
+            navbarMenu.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.navbar-menu a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+
+                if (navbarMenu.classList.contains('active')) {
+                    navbarMenu.classList.remove('active');
+                }
+            });
+        });
+
+        const viewProjectsBtn = document.getElementById('view-projects-btn');
+        if (viewProjectsBtn) {
+            viewProjectsBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        }
+
+        const projectCards = document.querySelectorAll('.project-card');
+        const loadMoreBtn = document.getElementById('load-more-projects');
+        const initialProjectsToShow = 6;
+
+        function hideExtraProjects() {
+            projectCards.forEach((card, index) => {
+                if (index >= initialProjectsToShow) {
+                    card.classList.add('hidden-project');
+                } else {
+                    card.classList.remove('hidden-project');
+                }
+            });
+            if (projectCards.length > initialProjectsToShow) {
+                loadMoreBtn.style.display = 'inline-block';
+            } else {
+                loadMoreBtn.style.display = 'none';
+            }
+        }
+
+        if (loadMoreBtn) {
+            loadMoreBtn.addEventListener('click', () => {
+                projectCards.forEach(card => {
+                    card.classList.remove('hidden-project');
+                });
+                loadMoreBtn.style.display = 'none';
+            });
+        }
+        
+        const projectDetailModal = document.getElementById('project-detail-modal');
+        const modalCloseBtn = document.querySelector('.modal-close');
+        const modalProjectImage = document.getElementById('modal-project-image');
+        const modalProjectTitle = document.getElementById('modal-project-title');
+        const modalProjectDescription = document.getElementById('modal-project-description');
+
+        projectCards.forEach(card => {
+            card.addEventListener('click', (event) => {
+                if (!event.target.classList.contains('hidden-link')) {
+                    const title = card.dataset.title;
+                    const description = card.dataset.description;
+                    const image = card.dataset.image;
+
+                    modalProjectImage.src = image;
+                    modalProjectTitle.textContent = title;
+                    modalProjectDescription.textContent = description;
+
+                    projectDetailModal.classList.add('active');
+                }
+            });
+        });
+
+        modalCloseBtn.addEventListener('click', () => {
+            projectDetailModal.classList.remove('active');
+        });
+
+        projectDetailModal.addEventListener('click', (event) => {
+            if (event.target === projectDetailModal) {
+                projectDetailModal.classList.remove('active');
+            }
+        });
+
+        const testimonialWrapper = document.querySelector('.testimonial-wrapper');
+        const testimonialCards = document.querySelectorAll('.testimonial-card');
+        const prevTestimonialBtn = document.querySelector('.prev-testimonial');
+        const nextTestimonialBtn = document.querySelector('.next-testimonial');
+        let currentTestimonialIndex = 0;
+
+        function updateTestimonialSlider() {
+            const offset = -currentTestimonialIndex * 100;
+            testimonialWrapper.style.transform = `translateX(${offset}%)`;
+        }
+
+        prevTestimonialBtn.addEventListener('click', () => {
+            currentTestimonialIndex = (currentTestimonialIndex - 1 + testimonialCards.length) % testimonialCards.length;
+            updateTestimonialSlider();
+        });
+
+        nextTestimonialBtn.addEventListener('click', () => {
+            currentTestimonialIndex = (currentTestimonialIndex + 1) % testimonialCards.length;
+            updateTestimonialSlider();
+        });
+
+        hideExtraProjects();
+        updateTestimonialSlider();
+
+        const style = document.createElement('style');
+        style.innerHTML = `
+            .hidden-project {
+                display: none;
+            }
+        `;
+        document.head.appendChild(style);
+
+    </script>
+</body>
+</html>
