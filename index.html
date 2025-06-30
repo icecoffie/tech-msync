@@ -154,19 +154,25 @@
             color: #00c6ff;
         }
 
-        .testimonial-container {
+        .testimonial-container,
+        .careers-slider-container {
             display: flex;
             overflow: hidden;
             position: relative;
             border-radius: 10px;
+            max-width: 900px;
+            margin: 0 auto;
+            min-height: 250px; /* Ensure some height for content */
         }
 
-        .testimonial-wrapper {
+        .testimonial-wrapper,
+        .careers-slider-wrapper {
             display: flex;
             transition: transform 0.5s ease-in-out;
         }
 
-        .testimonial-card {
+        .testimonial-card,
+        .careers-slide-item {
             min-width: 100%;
             box-sizing: border-box;
             background-color: #1A2436;
@@ -176,6 +182,18 @@
             margin-bottom: 1rem;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(0, 198, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .careers-slide-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            object-fit: cover;
+            max-height: 400px; /* Adjust height for banner look */
+            width: 100%; /* Make image fill width of its container */
         }
 
         .slider-nav {
@@ -383,15 +401,14 @@
                 <li><a href="#home" class="hover:text-blue-400 transition duration-300 px-3 py-2 rounded-lg ripple">Home</a></li>
                 <li><a href="#about" class="hover:text-blue-400 transition duration-300 px-3 py-2 rounded-lg ripple">About</a></li>
                 <li><a href="#projects" class="hover:text-blue-400 transition duration-300 px-3 py-2 rounded-lg ripple">Projects</a></li>
-                <li><a href="#testimonials" class="hover:text-blue-400 transition duration-300 px-3 py-2 rounded-lg ripple">Testimonials</a></li>
+                <li><a href="#careers" class="hover:text-blue-400 transition duration-300 px-3 py-2 rounded-lg ripple">Careers</a></li>
                 <li><a href="#contact" class="hover:text-blue-400 transition duration-300 px-3 py-2 rounded-lg ripple">Contact</a></li>
             </ul>
         </nav>
     </header>
 
     <main class="pt-28 container mx-auto px-4 md:px-8"> 
-
-        <section id="home" class="min-h-screen flex items-center justify-center text-center">
+       <section id="home" class="min-h-screen flex items-center justify-center text-center">
             <div class="max-w-4xl w-full section-container">
                 <div class="award-container">
                     <img src="award.png" alt="award">
@@ -414,7 +431,6 @@
                     </div>
                     <div class="md:w-1/2 flex justify-center items-center mt-8 md:mt-0 md:ml-8">
                       <img src="spech.gif" alt="Deskripsi GIF Anda" class="rounded-lg shadow-xl w-full h-64 md:h-96 object-cover">
-                      </video>
                         </div>
                     </div>
                 </div>
@@ -450,8 +466,12 @@
                     <pre class="text-gray-300 mt-4"><code>
 const MatrixSync = {
   version: '1.0.0',
+  since: '2022',
   mission: 'To build a seamless and robust Tech ecosystem 
   that drives growth and success for your business.',
+  clients: {
+    We have 160+ Clients in national and International 🗺️
+  }
   values: [
     'Clean Design',
     'Powerful Functionality',
@@ -622,21 +642,49 @@ export default MatrixSync;
             </div>
         </section>
 
-        <section id="promo-image-section" class="flex items-center justify-center text-center">
-            <div class="max-w-5xl w-full section-container flex flex-col justify-center items-center p-4 relative">
-                <div class="mac-dots">
-                    <div class="mac-dot red"></div>
-                    <div class="mac-dot yellow"></div>
-                    <div class="mac-dot green"></div>
+        <section id="careers" class="min-h-screen flex flex-col items-center justify-center">
+            <div class="max-w-5xl w-full section-container text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-10 header-gradient">
+                    <a href="https://www.linkedin.com/company/msync/" target="_blank" class="hover:underline">Careers at MSync <br> (Click this for more)</a>
+                </h2>
+                <div class="careers-slider-container relative">
+                    <div class="careers-slider-wrapper">
+                        <div class="careers-slide-item">
+                            <img src="banner2.png" alt="Career Banner 3">
+                        </div>
+                        <div class="careers-slide-item">
+                            <img src="banner3.png" alt="Career Banner 4">
+                        </div>
+                        <div class="careers-slide-item">
+                            <img src="banner.png" alt="Career Banner 3">
+                        </div>
+                        <div class="careers-slide-item">
+                            <img src="banner4.png" alt="Career Banner 5">
+                        </div>
+                        <div class="careers-slide-item">
+                            <img src="banner6.png" alt="Career Banner 1">
+                        </div>
+                        <div class="careers-slide-item">
+                            <img src="banner1.png" alt="Career Banner 2">
+                        </div>
+                        <div class="careers-slide-item">
+                            <img src="banner5.png" alt="Career Banner 6">
+                        </div>
+                    </div>
+                    <div class="slider-nav">
+                        <button class="slider-button prev-careers ripple"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-button next-careers ripple"><i class="fas fa-chevron-right"></i></button>
+                    </div>
                 </div>
-                <img src="banner.png" alt="Promotional Banner" class="rounded-lg shadow-xl w-full h-auto object-cover mb-6">
-                <a href="https://form.typeform.com/to/YxutCuc7" target="_blank" class="btn-primary inline-block ripple">Join Our Team - MSync Careers</a>
+                <a href="https://form.typeform.com/to/YxutCuc7" target="_blank" class="btn-primary inline-block ripple mt-10">Join Our Team - MSync Careers</a>
             </div>
         </section>
 
         <section id="testimonials" class="min-h-screen flex flex-col items-center justify-center">
             <div class="max-w-4xl w-full section-container text-center">
-                <h2 class="text-3xl md:text-4xl font-bold mb-10 header-gradient">What Our Clients Say</h2>
+                <h2 class="text-3xl md:text-4xl font-bold mb-10 header-gradient">
+                    <a href="https://x.com/msyncq/status/1835328859312718186" target="_blank" class="hover:underline">What Our Clients Say <br> (Click this for more)</a>
+                </h2>
                 <div class="testimonial-container relative overflow-hidden">
                     <div class="testimonial-wrapper flex w-full">
                         <div class="testimonial-card">
@@ -857,8 +905,35 @@ export default MatrixSync;
             updateTestimonialSlider();
         });
 
+        // Careers Banner Slider Logic (Re-implemented)
+        const careersSliderWrapper = document.querySelector('.careers-slider-wrapper');
+        const careersSlideItems = document.querySelectorAll('.careers-slide-item');
+        const prevCareersBtn = document.querySelector('.prev-careers');
+        const nextCareersBtn = document.querySelector('.next-careers');
+        let currentCareersIndex = 0;
+
+        function updateCareersSlider() {
+            const offset = -currentCareersIndex * 100;
+            careersSliderWrapper.style.transform = `translateX(${offset}%)`;
+        }
+
+        if (prevCareersBtn) {
+            prevCareersBtn.addEventListener('click', () => {
+                currentCareersIndex = (currentCareersIndex - 1 + careersSlideItems.length) % careersSlideItems.length;
+                updateCareersSlider();
+            });
+        }
+
+        if (nextCareersBtn) {
+            nextCareersBtn.addEventListener('click', () => {
+                currentCareersIndex = (currentCareersIndex + 1) % careersSlideItems.length;
+                updateCareersSlider();
+            });
+        }
+
         hideExtraProjects();
         updateTestimonialSlider();
+        updateCareersSlider(); // Initialize careers slider
 
         const style = document.createElement('style');
         style.innerHTML = `
