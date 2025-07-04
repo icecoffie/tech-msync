@@ -162,7 +162,7 @@
             border-radius: 10px;
             max-width: 900px;
             margin: 0 auto;
-            min-height: 250px; /* Ensure some height for content */
+            min-height: 250px;
         }
 
         .testimonial-wrapper,
@@ -191,9 +191,9 @@
             max-width: 100%;
             height: auto;
             border-radius: 10px;
-            object-fit: cover;
-            max-height: 400px; /* Adjust height for banner look */
-            width: 100%; /* Make image fill width of its container */
+            object-fit: contain;
+            width: 100%;
+            display: block;
         }
 
         .slider-nav {
@@ -356,6 +356,9 @@
             .logo-item {
                 width: 120px;
                 margin: 0 1rem;
+            }
+            .careers-slide-item {
+                padding: 1rem;
             }
         }
         .header-logo-img {
@@ -905,7 +908,6 @@ export default MatrixSync;
             updateTestimonialSlider();
         });
 
-        // Careers Banner Slider Logic (Re-implemented)
         const careersSliderWrapper = document.querySelector('.careers-slider-wrapper');
         const careersSlideItems = document.querySelectorAll('.careers-slide-item');
         const prevCareersBtn = document.querySelector('.prev-careers');
@@ -933,7 +935,7 @@ export default MatrixSync;
 
         hideExtraProjects();
         updateTestimonialSlider();
-        updateCareersSlider(); // Initialize careers slider
+        updateCareersSlider();
 
         const style = document.createElement('style');
         style.innerHTML = `
