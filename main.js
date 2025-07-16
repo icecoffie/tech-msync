@@ -57,14 +57,12 @@
             }
         }
 
-        if (loadMoreBtn) {
-            loadMoreBtn.addEventListener('click', () => {
-                projectCards.forEach(card => {
-                    card.classList.remove('hidden-project');
-                });
-                loadMoreBtn.style.display = 'none';
+        loadMoreBtn.addEventListener('click', () => {
+            projectCards.forEach(card => {
+                card.classList.remove('hidden-project');
             });
-        }
+            loadMoreBtn.style.display = 'none';
+        });
         
         const projectDetailModal = document.getElementById('project-detail-modal');
         const modalCloseBtn = document.querySelector('.modal-close');
@@ -75,15 +73,12 @@
         projectCards.forEach(card => {
             card.addEventListener('click', (event) => {
                 if (!event.target.classList.contains('hidden-link')) {
-                    const title = card.dataset.title;
-                    const description = card.dataset.description;
-                    const image = card.dataset.image;
+                    const title = card.querySelector('h3').textContent;
+                    const description = card.querySelector('p').textContent;
 
-                    modalProjectImage.src = image;
                     modalProjectTitle.textContent = title;
                     modalProjectDescription.textContent = description;
 
-                    projectDetailModal.classList.add('active');
                 }
             });
         });
@@ -144,9 +139,35 @@
             });
         }
 
+        const certificatesSliderWrapper = document.querySelector('.certificates-slider-wrapper');
+        const certificatesSlideItems = document.querySelectorAll('.certificates-slide-item');
+        const prevCertificatesBtn = document.querySelector('.prev-certificates');
+        const nextCertificatesBtn = document.querySelector('.next-certificates');
+        let currentCertificatesIndex = 0;
+
+        function updateCertificatesSlider() {
+            const offset = -currentCertificatesIndex * 100;
+            certificatesSliderWrapper.style.transform = `translateX(${offset}%)`;
+        }
+
+        if (prevCertificatesBtn) {
+            prevCertificatesBtn.addEventListener('click', () => {
+                currentCertificatesIndex = (currentCertificatesIndex - 1 + certificatesSlideItems.length) % certificatesSlideItems.length;
+                updateCertificatesSlider();
+            });
+        }
+
+        if (nextCertificatesBtn) {
+            nextCertificatesBtn.addEventListener('click', () => {
+                currentCertificatesIndex = (currentCertificatesIndex + 1) % certificatesSlideItems.length;
+                updateCertificatesSlider();
+            });
+        }
+
         hideExtraProjects();
         updateTestimonialSlider();
         updateCareersSlider();
+        updateCertificatesSlider();
 
         const style = document.createElement('style');
         style.innerHTML = `
