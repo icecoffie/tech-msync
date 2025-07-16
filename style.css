@@ -144,7 +144,8 @@ body {
         }
 
         .testimonial-container,
-        .careers-slider-container {
+        .careers-slider-container,
+        .certificates-slider-container {
             display: flex;
             overflow: hidden;
             position: relative;
@@ -155,13 +156,15 @@ body {
         }
 
         .testimonial-wrapper,
-        .careers-slider-wrapper {
+        .careers-slider-wrapper,
+        .certificates-slider-wrapper {
             display: flex;
             transition: transform 0.5s ease-in-out;
         }
 
         .testimonial-card,
-        .careers-slide-item {
+        .careers-slide-item,
+        .certificates-slide-item {
             min-width: 100%;
             box-sizing: border-box;
             background-color: #1A2436;
@@ -176,7 +179,8 @@ body {
             justify-content: center;
             align-items: center;
         }
-        .careers-slide-item img {
+        .careers-slide-item img,
+        .certificates-slide-item img {
             max-width: 100%;
             height: auto;
             border-radius: 10px;
@@ -283,6 +287,100 @@ body {
             100% { transform: translateX(-50%); }
         }
         
+        .header-logo-img {
+            height: 50px;
+            width: auto;
+            display: block;
+        }
+
+        .award-container {
+            position: absolute;
+            top: -45px; 
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            width: 90px;
+            height: 90px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .award-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; 
+        }
+
+        #home {
+            padding-top: 5rem;
+            position: relative;
+        }
+
+        .services-floating-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .service-bubble {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: rgba(50, 60, 80, 0.7);
+            border: 1px solid rgba(0, 198, 255, 0.2);
+            border-radius: 50px;
+            padding: 0.5rem 1.2rem;
+            font-size: 0.9rem;
+            color: #E0E0E0;
+            white-space: nowrap;
+            box-shadow: 0 4px 15px rgba(0, 198, 255, 0.15);
+            animation: float 6s ease-in-out infinite alternate;
+            pointer-events: auto;
+            transform-origin: center center;
+            transition: transform 0.3s ease-in-out;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .service-bubble:hover {
+            transform: scale(1.05);
+            background-color: rgba(0, 123, 255, 0.8);
+            box-shadow: 0 6px 20px rgba(0, 198, 255, 0.4);
+        }
+
+        .service-bubble .bubble-icon {
+            font-size: 1.2rem;
+            color: #00c6ff;
+        }
+
+        .service-bubble .bubble-text {
+            font-weight: 500;
+        }
+
+        .bubble-1 { top: 40%; left: 10%; animation-delay: 0s; }
+        .bubble-2 { top: 30%; right: 12%; animation-delay: 1.5s; }
+        .bubble-3 { bottom: 22%; left: 8%; animation-delay: 3s; }
+        .bubble-4 { bottom: 15%; right: 15%; animation-delay: 4.5s; }
+        .bubble-5 { top: 5%; left: 30%; animation-delay: 2.2s; }
+        .bubble-6 { top: 55%; left: 5%; animation-delay: 0.8s; }
+        .bubble-7 { bottom: 5%; left: 50%; animation-delay: 3.8s; }
+        .bubble-8 { top: 40%; right: 30%; animation-delay: 1s; }
+        .bubble-9 { top: 70%; left: 18%; animation-delay: 2.5s; }
+        .bubble-10 { top: 60%; left: 73%; animation-delay: 4s; }
+
+
+        @keyframes float {
+            0% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(-10px) translateX(5px); }
+            100% { transform: translateY(0px) translateX(0px); }
+        }
+
         @media (max-width: 768px) {
             .navbar-menu {
                 flex-direction: column;
@@ -346,34 +444,43 @@ body {
                 width: 120px;
                 margin: 0 1rem;
             }
-            .careers-slide-item {
+            .careers-slide-item,
+            .certificates-slide-item {
                 padding: 1rem;
             }
-        }
-        .header-logo-img {
-            height: 50px;
-            width: auto;
-            display: block;
-        }
 
-        .award-container {
-            position: absolute;
-            top: -45px; 
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
-            width: 90px;
-            height: 90px; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .award-container img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain; 
-        }
+            .services-floating-container {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                overflow: hidden;
+                z-index: 1;
+            }
 
-        #home {
-            padding-top: 5rem;
+            .service-bubble {
+                padding: 0.3rem 0.8rem;
+                font-size: 0.7rem;
+                gap: 0.2rem;
+                animation-duration: 5s;
+                white-space: nowrap; 
+                width: fit-content; 
+            }
+            .service-bubble .bubble-icon {
+                font-size: 1rem;
+            }
+
+            .bubble-1 { top: 20%; left: 5%; }
+            .bubble-2 { top: 15%; right: 5%; }
+            .bubble-3 { bottom: 5%; left: 5%; }
+            .bubble-4 { bottom: 15%; right: 5%; }
+            .bubble-6 { top: 27%; right: 10%; } 
+            .bubble-8 { top: 50%; right: 5%; } 
+            .bubble-10 { bottom: 35%; right: 10%; } 
+            
+            .bubble-5, .bubble-7, .bubble-9 {
+                display: none;
+            }
         }
