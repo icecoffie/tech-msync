@@ -155,7 +155,8 @@
         }
 
         .testimonial-container,
-        .careers-slider-container {
+        .careers-slider-container,
+        .certificates-slider-container {
             display: flex;
             overflow: hidden;
             position: relative;
@@ -166,13 +167,15 @@
         }
 
         .testimonial-wrapper,
-        .careers-slider-wrapper {
+        .careers-slider-wrapper,
+        .certificates-slider-wrapper {
             display: flex;
             transition: transform 0.5s ease-in-out;
         }
 
         .testimonial-card,
-        .careers-slide-item {
+        .careers-slide-item,
+        .certificates-slide-item {
             min-width: 100%;
             box-sizing: border-box;
             background-color: #1A2436;
@@ -187,7 +190,8 @@
             justify-content: center;
             align-items: center;
         }
-        .careers-slide-item img {
+        .careers-slide-item img,
+        .certificates-slide-item img {
             max-width: 100%;
             height: auto;
             border-radius: 10px;
@@ -294,6 +298,100 @@
             100% { transform: translateX(-50%); }
         }
         
+        .header-logo-img {
+            height: 50px;
+            width: auto;
+            display: block;
+        }
+
+        .award-container {
+            position: absolute;
+            top: -45px; 
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            width: 90px;
+            height: 90px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .award-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; 
+        }
+
+        #home {
+            padding-top: 5rem;
+            position: relative;
+        }
+
+        .services-floating-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .service-bubble {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: rgba(50, 60, 80, 0.7);
+            border: 1px solid rgba(0, 198, 255, 0.2);
+            border-radius: 50px;
+            padding: 0.5rem 1.2rem;
+            font-size: 0.9rem;
+            color: #E0E0E0;
+            white-space: nowrap;
+            box-shadow: 0 4px 15px rgba(0, 198, 255, 0.15);
+            animation: float 6s ease-in-out infinite alternate;
+            pointer-events: auto;
+            transform-origin: center center;
+            transition: transform 0.3s ease-in-out;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .service-bubble:hover {
+            transform: scale(1.05);
+            background-color: rgba(0, 123, 255, 0.8);
+            box-shadow: 0 6px 20px rgba(0, 198, 255, 0.4);
+        }
+
+        .service-bubble .bubble-icon {
+            font-size: 1.2rem;
+            color: #00c6ff;
+        }
+
+        .service-bubble .bubble-text {
+            font-weight: 500;
+        }
+
+        .bubble-1 { top: 40%; left: 10%; animation-delay: 0s; }
+        .bubble-2 { top: 30%; right: 12%; animation-delay: 1.5s; }
+        .bubble-3 { bottom: 22%; left: 8%; animation-delay: 3s; }
+        .bubble-4 { bottom: 15%; right: 15%; animation-delay: 4.5s; }
+        .bubble-5 { top: 5%; left: 30%; animation-delay: 2.2s; }
+        .bubble-6 { top: 55%; left: 5%; animation-delay: 0.8s; }
+        .bubble-7 { bottom: 5%; left: 50%; animation-delay: 3.8s; }
+        .bubble-8 { top: 40%; right: 30%; animation-delay: 1s; }
+        .bubble-9 { top: 70%; left: 18%; animation-delay: 2.5s; }
+        .bubble-10 { top: 60%; left: 73%; animation-delay: 4s; }
+
+
+        @keyframes float {
+            0% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(-10px) translateX(5px); }
+            100% { transform: translateY(0px) translateX(0px); }
+        }
+
         @media (max-width: 768px) {
             .navbar-menu {
                 flex-direction: column;
@@ -357,45 +455,55 @@
                 width: 120px;
                 margin: 0 1rem;
             }
-            .careers-slide-item {
+            .careers-slide-item,
+            .certificates-slide-item {
                 padding: 1rem;
             }
-        }
-        .header-logo-img {
-            height: 50px;
-            width: auto;
-            display: block;
+
+            .services-floating-container {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                overflow: hidden;
+                z-index: 1;
+            }
+
+            .service-bubble {
+                padding: 0.3rem 0.8rem;
+                font-size: 0.7rem;
+                gap: 0.2rem;
+                animation-duration: 5s;
+                white-space: nowrap; 
+                width: fit-content; 
+            }
+            .service-bubble .bubble-icon {
+                font-size: 1rem;
+            }
+
+            .bubble-1 { top: 20%; left: 5%; }
+            .bubble-2 { top: 15%; right: 5%; }
+            .bubble-3 { bottom: 5%; left: 5%; }
+            .bubble-4 { bottom: 15%; right: 5%; }
+            .bubble-6 { top: 27%; right: 10%; } 
+            .bubble-8 { top: 50%; right: 5%; } 
+            .bubble-10 { bottom: 35%; right: 10%; } 
+            
+            .bubble-5, .bubble-7, .bubble-9 {
+                display: none;
+            }
         }
 
-        .award-container {
-            position: absolute;
-            top: -45px; 
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
-            width: 90px;
-            height: 90px; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .award-container img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain; 
-        }
-
-        #home {
-            padding-top: 5rem;
-        }
     </style>
 </head>
-<body class="antialiased">
+<body>
 
     <header class="py-6 px-4 md:px-8 bg-gray-900 bg-opacity-70 backdrop-filter backdrop-blur-lg shadow-lg fixed w-full z-10">
         <nav class="container mx-auto flex justify-between items-center">
             <div class="flex items-center">
-                <img src="msync-fish.png" alt="MSync Logo" class="header-logo-img">
+                <img src="logo.png" alt="MSync Logo" class="header-logo-img">
             </div>
             <button class="text-white md:hidden focus:outline-none navbar-toggle">
                 <i class="fas fa-bars"></i>
@@ -439,6 +547,37 @@
                 </div>
             </div>
         </section>
+
+        <div class="services-floating-container">
+            <div class="service-bubble bubble-1">
+                <i class="fas fa-drafting-compass bubble-icon"></i>
+                <span class="bubble-text">UI/UX Design</span>
+            </div>
+            <div class="service-bubble bubble-2">
+                <i class="fas fa-code bubble-icon"></i>
+                <span class="bubble-text">Web App Development</span>
+            </div>
+            <div class="service-bubble bubble-3">
+                <i class="fas fa-database bubble-icon"></i>
+                <span class="bubble-text">Database Management</span>
+            </div>
+            <div class="service-bubble bubble-4">
+                <i class="fas fa-chart-line bubble-icon"></i>
+                <span class="bubble-text">Digital Marketing</span>
+            </div>
+            <div class="service-bubble bubble-6">
+                <i class="fas fa-chalkboard-teacher bubble-icon"></i>
+                <span class="bubble-text">Tech Mentor</span>
+            </div>
+            <div class="service-bubble bubble-8">
+                <i class="fas fa-shield-alt bubble-icon"></i>
+                <span class="bubble-text">Cyber Security</span>
+            </div>
+            <div class="service-bubble bubble-10">
+                <i class="fas fa-cloud bubble-icon"></i>
+                <span class="bubble-text">Saas / Cloud</span>
+            </div>
+        </div>
 
         <section class="logo-slider-container">
             <div class="logo-slider-wrapper">
@@ -513,6 +652,11 @@ export default MatrixSync;
         <section id="projects" class="min-h-screen flex flex-col items-center justify-center">
             <div class="max-w-5xl w-full section-container text-center">
                 <h2 class="text-3xl md:text-4xl font-bold mb-10 header-gradient">Our Projects</h2>
+                <div class="mac-dots">
+                    <div class="mac-dot red"></div>
+                    <div class="mac-dot yellow"></div>
+                    <div class="mac-dot green"></div>
+                </div>
                 <div id="project-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <div class="project-card ripple">
                         <a href="https://othellosm.msync.my.id" target="_blank" class="block w-full h-full p-4">
@@ -594,7 +738,7 @@ export default MatrixSync;
                     <div class="project-card hidden-project ripple">
                         <a href="https://skybreez.msync.my.id" target="_blank" class="block w-full h-full p-4">
                             <img src="skybreez.png" alt="Project 12" class="rounded-lg mb-4 w-full h-48 object-cover">
-                            <h3 class="text-2xl font-semibold text-blue-300 mb-2">Weather App</h3>
+                            <h3 class="text-2xl font-semibold text-blue-300 mb-2">Skybreez</h3>
                             <p class="text-gray-400">Skybreez, the intuitive and visually appealing weather app. Get accurate, real-time forecasts With its clean interface.</p>
                         </a>
                     </div>
@@ -647,9 +791,13 @@ export default MatrixSync;
 
         <section id="careers" class="min-h-screen flex flex-col items-center justify-center">
             <div class="max-w-5xl w-full section-container text-center">
-                <h2 class="text-3xl md:text-4xl font-bold mb-10 header-gradient">
-                    <a href="https://www.linkedin.com/company/msync/" target="_blank" class="hover:underline">Careers at MSync <br> (Click this for more)</a>
+                <h2 class="text-3xl md:text-4xl font-bold mb-10 header-gradient">Careers At Matrix Sync
                 </h2>
+                <div class="mac-dots">
+                    <div class="mac-dot red"></div>
+                    <div class="mac-dot yellow"></div>
+                    <div class="mac-dot green"></div>
+                </div>
                 <div class="careers-slider-container relative">
                     <div class="careers-slider-wrapper">
                         <div class="careers-slide-item">
@@ -688,6 +836,11 @@ export default MatrixSync;
                 <h2 class="text-3xl md:text-4xl font-bold mb-10 header-gradient">
                     <a href="https://x.com/msyncq/status/1835328859312718186" target="_blank" class="hover:underline">What Our Clients Say <br> (Click this for more)</a>
                 </h2>
+                <div class="mac-dots">
+                    <div class="mac-dot red"></div>
+                    <div class="mac-dot yellow"></div>
+                    <div class="mac-dot green"></div>
+                </div>
                 <div class="testimonial-container relative overflow-hidden">
                     <div class="testimonial-wrapper flex w-full">
                         <div class="testimonial-card">
@@ -724,12 +877,49 @@ export default MatrixSync;
                         <button class="slider-button next-testimonial ripple"><i class="fas fa-chevron-right"></i></button>
                     </div>
                 </div>
+                <a href="https://testy.msync.my.id" target="_blank" class="btn-primary inline-block ripple mt-10">Input Your Testimoni</a>
+            </div>
+        </section>
+
+        <section id="certificates" class="min-h-screen flex flex-col items-center justify-center">
+            <div class="max-w-5xl w-full section-container text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-10 header-gradient">
+                    <a href="" class="hover:underline">Awards Matrix Sync</a>
+                </h2>
+                <div class="mac-dots">
+                    <div class="mac-dot red"></div>
+                    <div class="mac-dot yellow"></div>
+                    <div class="mac-dot green"></div>
+                </div>
+                <div class="certificates-slider-container relative">
+                    <div class="certificates-slider-wrapper">
+                        <div class="certificates-slide-item">
+                            <img src="awards1.png" alt="Awards 1">
+                        </div>
+                        <div class="certificates-slide-item">
+                            <img src="awards2.png" alt="Awards 2">
+                        </div>
+                        <div class="certificates-slide-item">
+                            <img src="awards3.png" alt="Awards 3">
+                        </div>
+                    </div>
+                    <div class="slider-nav">
+                        <button class="slider-button prev-certificates ripple"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-button next-certificates ripple"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+                <a href="https://www.linkedin.com/company/msync/" target="_blank" class="btn-primary inline-block ripple mt-10">Linkedin Matrix Sync</a>
             </div>
         </section>
 
         <section id="contact" class="min-h-screen flex items-center justify-center">
             <div class="max-w-3xl w-full section-container text-center">
                 <h2 class="text-3xl md:text-4xl font-bold mb-6 header-gradient">Contact Us</h2>
+                <div class="mac-dots">
+                    <div class="mac-dot red"></div>
+                    <div class="mac-dot yellow"></div>
+                    <div class="mac-dot green"></div>
+                </div>
                 <p class="text-lg md:text-xl mb-8 text-gray-300">
                     Interested in working together? Reach out to us via the form below and wait for the respon!
                 </p>
@@ -771,6 +961,9 @@ export default MatrixSync;
                     </a>
                     <a href="https://dribbble.com/msync" target="_blank" class="social-icon ripple" aria-label="Dribbble">
                         <i class="fab fa-dribbble"></i>
+                    </a>
+                    <a href="https://medium.com/@malsky" target="_blank" class="social-icon ripple" aria-label="Medium">
+                        <i class="fab fa-medium"></i>
                     </a>
                 </div>
             </div>
@@ -846,14 +1039,12 @@ export default MatrixSync;
             }
         }
 
-        if (loadMoreBtn) {
-            loadMoreBtn.addEventListener('click', () => {
-                projectCards.forEach(card => {
-                    card.classList.remove('hidden-project');
-                });
-                loadMoreBtn.style.display = 'none';
+        loadMoreBtn.addEventListener('click', () => {
+            projectCards.forEach(card => {
+                card.classList.remove('hidden-project');
             });
-        }
+            loadMoreBtn.style.display = 'none';
+        });
         
         const projectDetailModal = document.getElementById('project-detail-modal');
         const modalCloseBtn = document.querySelector('.modal-close');
@@ -864,15 +1055,12 @@ export default MatrixSync;
         projectCards.forEach(card => {
             card.addEventListener('click', (event) => {
                 if (!event.target.classList.contains('hidden-link')) {
-                    const title = card.dataset.title;
-                    const description = card.dataset.description;
-                    const image = card.dataset.image;
+                    const title = card.querySelector('h3').textContent;
+                    const description = card.querySelector('p').textContent;
 
-                    modalProjectImage.src = image;
                     modalProjectTitle.textContent = title;
                     modalProjectDescription.textContent = description;
 
-                    projectDetailModal.classList.add('active');
                 }
             });
         });
@@ -933,9 +1121,35 @@ export default MatrixSync;
             });
         }
 
+        const certificatesSliderWrapper = document.querySelector('.certificates-slider-wrapper');
+        const certificatesSlideItems = document.querySelectorAll('.certificates-slide-item');
+        const prevCertificatesBtn = document.querySelector('.prev-certificates');
+        const nextCertificatesBtn = document.querySelector('.next-certificates');
+        let currentCertificatesIndex = 0;
+
+        function updateCertificatesSlider() {
+            const offset = -currentCertificatesIndex * 100;
+            certificatesSliderWrapper.style.transform = `translateX(${offset}%)`;
+        }
+
+        if (prevCertificatesBtn) {
+            prevCertificatesBtn.addEventListener('click', () => {
+                currentCertificatesIndex = (currentCertificatesIndex - 1 + certificatesSlideItems.length) % certificatesSlideItems.length;
+                updateCertificatesSlider();
+            });
+        }
+
+        if (nextCertificatesBtn) {
+            nextCertificatesBtn.addEventListener('click', () => {
+                currentCertificatesIndex = (currentCertificatesIndex + 1) % certificatesSlideItems.length;
+                updateCertificatesSlider();
+            });
+        }
+
         hideExtraProjects();
         updateTestimonialSlider();
         updateCareersSlider();
+        updateCertificatesSlider();
 
         const style = document.createElement('style');
         style.innerHTML = `
